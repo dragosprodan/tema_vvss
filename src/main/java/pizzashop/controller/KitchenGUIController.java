@@ -1,5 +1,6 @@
 package pizzashop.controller;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +11,8 @@ import java.util.Calendar;
 
 
 public class KitchenGUIController {
+    Logger logger = Logger.getLogger(KitchenGUIController.class.getName());
+
     @FXML
     private ListView kitchenOrdersList;
     @FXML
@@ -17,29 +20,23 @@ public class KitchenGUIController {
     @FXML
     public Button ready;
 
-    public static  ObservableList<String> order = FXCollections.observableArrayList();
+    protected static final  ObservableList<String> order = FXCollections.observableArrayList();
     private Object selectedOrder;
     private Calendar now = Calendar.getInstance();
-    private String extractedTableNumberString = new String();
+    private String extractedTableNumberString = "";
     private int extractedTableNumberInteger;
     //thread for adding data to kitchenOrderList
-    public  Thread addOrders = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            while (true) {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        kitchenOrdersList.setItems(order);
-                        }
-                });
+    public Thread addOrders = new Thread(()-> {
+        while (true) {
+                Platform.runLater(()-> {
+                            kitchenOrdersList.setItems(order);
+                        });
                 try {
                     Thread.sleep(100);
                   } catch (InterruptedException ex) {
                     break;
                 }
             }
-        }
     });
 
     public void initialize() {
@@ -60,9 +57,9 @@ public class KitchenGUIController {
             kitchenOrdersList.getItems().remove(selectedOrder);
             extractedTableNumberString = selectedOrder.toString().subSequence(5, 6).toString();
             extractedTableNumberInteger = Integer.valueOf(extractedTableNumberString);
-            System.out.println("--------------------------");
-            System.out.println("Table " + extractedTableNumberInteger +" ready at: " + now.get(Calendar.HOUR)+":"+now.get(Calendar.MINUTE));
-            System.out.println("--------------------------");
+            logger.log(Level.INFO,"--------------------");
+            logger.log(Level.INFO,"Table " + extractedTableNumberInteger +" ready at: " + now.get(Calendar.HOUR)+":"+now.get(Calendar.MINUTE));
+            logger.log(Level.INFO,"--------------------");
         });
     }
 }

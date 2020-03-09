@@ -9,17 +9,18 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import pizzashop.model.MenuDataModel;
-import pizzashop.gui.OrdersGUI;
 import pizzashop.service.PaymentAlert;
 import pizzashop.service.PizzaService;
 
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class OrdersGUIController {
-
+    Logger logger = Logger.getLogger(OrdersGUIController.class.getName());
     @FXML
     private ComboBox<Integer> orderQuantity;
     @FXML
@@ -47,23 +48,25 @@ public class OrdersGUIController {
 
     private   List<String> orderList = FXCollections.observableArrayList();
     private List<Double> orderPaymentList = FXCollections.observableArrayList();
-    public static double getTotalAmount() {
+    public  double getTotalAmount() {
         return totalAmount;
     }
-    public void setTotalAmount(double totalAmount) {
+    public   void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
 
     private PizzaService service;
     private int tableNumber;
 
-    public ObservableList<String> observableList;
+    protected ObservableList<String> observableList;
     private TableView<MenuDataModel> table = new TableView<MenuDataModel>();
-    private ObservableList<MenuDataModel> menuData;// = FXCollections.observableArrayList();
+
     private Calendar now = Calendar.getInstance();
     private static double totalAmount;
 
-    public OrdersGUIController(){ }
+    public OrdersGUIController(){
+        //Constructor
+    }
 
     public void setService(PizzaService service, int tableNumber){
         this.service=service;
@@ -73,6 +76,7 @@ public class OrdersGUIController {
     }
 
     private void initData(){
+        ObservableList<MenuDataModel> menuData;
         menuData = FXCollections.observableArrayList(service.getMenuData());
         menuData.setAll(service.getMenuData());
         orderTable.setItems(menuData);
@@ -100,10 +104,10 @@ public class OrdersGUIController {
                     .collect(Collectors.toList());
             setTotalAmount(orderPaymentList.stream().mapToDouble(e->e.doubleValue()).sum());
             orderStatus.setText("Total amount: " + getTotalAmount());
-            System.out.println("--------------------------");
-            System.out.println("Table: " + tableNumber);
-            System.out.println("Total: " + getTotalAmount());
-            System.out.println("--------------------------");
+            logger.log(Level.INFO,"--------------------------");
+            logger.log(Level.INFO,"Table: " + tableNumber);
+            logger.log(Level.INFO,"Total: " + getTotalAmount());
+            logger.log(Level.INFO,"--------------------------");
             PaymentAlert pay = new PaymentAlert(service);
             pay.showPaymentAlert(tableNumber, this.getTotalAmount());
         });

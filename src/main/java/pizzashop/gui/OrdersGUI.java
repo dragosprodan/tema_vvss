@@ -10,10 +10,12 @@ import pizzashop.controller.OrdersGUIController;
 import pizzashop.service.PizzaService;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class OrdersGUI {
-
+Logger logger= Logger.getLogger(OrdersGUI.class.getName());
     protected int tableNumber;
     public int getTableNumber() {
         return tableNumber;
@@ -26,13 +28,12 @@ public class OrdersGUI {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/OrdersGUIFXML.fxml"));
 
-            //vBoxOrders = FXMLLoader.load(getClass().getResource("/fxml/OrdersGUIFXML.fxml"));
             vBoxOrders = loader.load();
             OrdersGUIController ordersCtrl= loader.getController();
             ordersCtrl.setService(service, tableNumber);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING,e.toString());
         }
 
      Stage stage = new Stage();
