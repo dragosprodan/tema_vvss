@@ -51,15 +51,15 @@ public class OrdersGUIController {
     public  double getTotalAmount() {
         return totalAmount;
     }
-    public   void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
+    public static void setTotalAmount(double totalAmount1) {
+       totalAmount = totalAmount1;
     }
 
     private PizzaService service;
     private int tableNumber;
 
     protected ObservableList<String> observableList;
-    private TableView<MenuDataModel> table = new TableView<MenuDataModel>();
+    private TableView<MenuDataModel> table = new TableView<>();
 
     private Calendar now = Calendar.getInstance();
     private static double totalAmount;
@@ -102,7 +102,7 @@ public class OrdersGUIController {
                     .filter(x -> x.getQuantity()>0)
                     .map(menuDataModel -> menuDataModel.getQuantity()*menuDataModel.getPrice())
                     .collect(Collectors.toList());
-            setTotalAmount(orderPaymentList.stream().mapToDouble(e->e.doubleValue()).sum());
+            setTotalAmount(orderPaymentList.stream().mapToDouble(Double::doubleValue).sum());
             orderStatus.setText("Total amount: " + getTotalAmount());
             logger.log(Level.INFO,"--------------------------");
             logger.log(Level.INFO,"Table: " + tableNumber);

@@ -62,6 +62,7 @@ Logger logger=Logger.getLogger(PaymentRepository.class.getName());
         try( BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
 
             for (Payment p:paymentList) {
+
                 logger.log(Level.INFO,p.toString());
                 bw.write(p.toString());
                 bw.newLine();

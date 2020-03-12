@@ -1,13 +1,11 @@
 package pizzashop.gui;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
-import javafx.stage.WindowEvent;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -28,10 +26,8 @@ Logger logger=Logger.getLogger(KitchenGUI.class.getName());
         Stage stage = new Stage();
         stage.setTitle("Kitchen");
         stage.setResizable(false);
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                Alert exitAlert = new Alert(Alert.AlertType.CONFIRMATION, "Would you like to exit Kitchen window?", ButtonType.YES, ButtonType.NO);
+        stage.setOnCloseRequest(event-> {
+               Alert exitAlert = new Alert(Alert.AlertType.CONFIRMATION, "Would you like to exit Kitchen window?", ButtonType.YES, ButtonType.NO);
                 Optional<ButtonType> result = exitAlert.showAndWait();
                 if (result.isPresent()&&result.get() == ButtonType.YES){
                     stage.close();
@@ -43,7 +39,7 @@ Logger logger=Logger.getLogger(KitchenGUI.class.getName());
                 else {
                     event.consume();
                 }
-            }
+
 
             });
         stage.setAlwaysOnTop(false);

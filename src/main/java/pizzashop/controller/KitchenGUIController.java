@@ -26,7 +26,7 @@ public class KitchenGUIController {
     private String extractedTableNumberString = "";
     private int extractedTableNumberInteger;
     //thread for adding data to kitchenOrderList
-    public Thread addOrders = new Thread(()-> {
+    private Thread addOrders = new Thread(()-> {
         while (true) {
                 Platform.runLater(()-> {
                             kitchenOrdersList.setItems(order);
@@ -34,6 +34,7 @@ public class KitchenGUIController {
                 try {
                     Thread.sleep(100);
                   } catch (InterruptedException ex) {
+                    
                     break;
                 }
             }
