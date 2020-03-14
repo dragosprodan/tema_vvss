@@ -1,5 +1,7 @@
 package pizzashop.repository;
 
+import javafx.collections.ObservableList;
+import pizzashop.model.MenuDataModel;
 import pizzashop.model.Payment;
 import pizzashop.model.PaymentType;
 
@@ -7,30 +9,41 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class PaymentRepository {
+    private static PaymentRepository single_instance = null;
+
     private static String filename = "data/payments.txt";
     private List<Payment> paymentList;
-Logger logger=Logger.getLogger(PaymentRepository.class.getName());
-    public PaymentRepository(){
+
+    private PaymentRepository() {
         this.paymentList = new ArrayList<>();
         readPayments();
     }
 
-    private void readPayments(){
-        ClassLoader classLoader = PaymentRepository.class.getClassLoader();
-        File file = new File(classLoader.getResource(filename).getFile());
-        try (BufferedReader br = new BufferedReader(new FileReader(file))){
+    public static PaymentRepository getInstance() {
+        if (single_instance == null)
+            single_instance = new PaymentRepository();
 
+        return single_instance;
+    }
+
+    private void readPayments(){
+        try {
+            ClassLoader classLoader = PaymentRepository.class.getClassLoader();
+            File file = new File(classLoader.getResource(filename).getFile());
+            BufferedReader br = null;
+            br = new BufferedReader(new FileReader(file));
             String line = null;
             while((line=br.readLine())!=null){
                 Payment payment=getPayment(line);
                 paymentList.add(payment);
             }
+            br.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
-            logger.log(Level.WARNING,e.toString());
+            e.printStackTrace();
         }
     }
 
@@ -58,17 +71,17 @@ Logger logger=Logger.getLogger(PaymentRepository.class.getName());
         ClassLoader classLoader = PaymentRepository.class.getClassLoader();
         File file = new File(classLoader.getResource(filename).getFile());
 
-
-        try( BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-
+        BufferedWriter bw = null;
+        try {
+            bw = new BufferedWriter(new FileWriter(file));
             for (Payment p:paymentList) {
-
-                logger.log(Level.INFO,p.toString());
+                System.out.println(p.toString());
                 bw.write(p.toString());
                 bw.newLine();
             }
+            bw.close();
         } catch (IOException e) {
-            logger.log(Level.WARNING,e.toString());
+            e.printStackTrace();
         }
     }
 
