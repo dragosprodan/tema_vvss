@@ -17,7 +17,11 @@ public class MovieUI {
     private void execute(String command) {
         if (command.equals("1")){
             List<String> movieData = getMovieData();
-            service.addMovie(movieData.get(0),movieData.get(1),Integer.decode(movieData.get(2)),getMovieActors(),movieData.get(3),getMovieKeywords());
+            try{
+                service.addMovie(movieData.get(0),movieData.get(1),Integer.decode(movieData.get(2)),getMovieActors(),movieData.get(3),getMovieKeywords());
+            } catch (Exception err) {
+                System.out.println(err.getMessage());
+            }
         } else if (command.equals("2")){
             System.out.println(service.showMovies());
         } else if (command.equals("3")){
