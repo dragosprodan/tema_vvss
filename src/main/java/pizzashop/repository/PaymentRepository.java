@@ -16,7 +16,7 @@ public class PaymentRepository {
     private static String filename = "data/payments.txt";
     private List<Payment> paymentList;
 
-    private PaymentRepository() {
+    public PaymentRepository() {
         this.paymentList = new ArrayList<>();
         readPayments();
     }
