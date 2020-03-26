@@ -24,7 +24,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Logger logger= Logger.getLogger(Main.class.getName());
         MenuRepository repoMenu=new MenuRepository();
-        PaymentRepository payRepo= new PaymentRepository();
+        PaymentRepository payRepo= PaymentRepository.getInstance();
         PizzaService service = new PizzaService(repoMenu, payRepo);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainFXML.fxml"));
