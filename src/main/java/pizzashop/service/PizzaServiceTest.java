@@ -70,4 +70,15 @@ class PizzaServiceTest {
         int m=service.getPayments().size();
         assertEquals(n+1,m);
     }
+
+    @org.junit.jupiter.api.Test
+    @DisplayName("bvaTest3")
+    @RepeatedTest(3)
+    void addPaymentecp6(RepetitionInfo repetitionInfo) {
+        int n=service.getPayments().size();
+        service.addPayment(6+repetitionInfo.getCurrentRepetition(),PaymentType.CASH,-2+repetitionInfo.getCurrentRepetition()+Double.MAX_VALUE);
+        int m=service.getPayments().size();
+        assertEquals(n+1,m);
+    }
+
 }
