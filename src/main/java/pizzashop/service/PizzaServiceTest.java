@@ -45,10 +45,8 @@ class PizzaServiceTest {
     @org.junit.jupiter.api.Test
     @DisplayName("ECPTest3")
     void addPaymentecp3() {
-            int n=service.getPayments().size();
-        service.addPayment(10,PaymentType.CASH,-1.0);
-        int m=service.getPayments().size();
-        assertEquals(n+1,m);
+
+        assertThrows(IllegalArgumentException.class,()->{service.addPayment(10,PaymentType.CASH,-1.0);});
     }
 
     @org.junit.jupiter.api.Test
@@ -56,19 +54,22 @@ class PizzaServiceTest {
     @ParameterizedTest
     @ValueSource(ints = {-1,0,1})
     void addPaymentecp4(int k) {
-        int n=service.getPayments().size();
-        service.addPayment(k,PaymentType.CASH,-1.0);
-        int m=service.getPayments().size();
-        assertEquals(n+1,m);
+
+            assertThrows(IllegalArgumentException.class,()->{service.addPayment(k,PaymentType.CASH,-1.0);});
+
     }
     @org.junit.jupiter.api.Test
     @DisplayName("bvaTest2")
  @RepeatedTest(3)
     void addPaymentecp5(RepetitionInfo repetitionInfo) {
+        if(repetitionInfo.getCurrentRepetition()>=2){
         int n=service.getPayments().size();
         service.addPayment(1,PaymentType.CASH,-2+repetitionInfo.getCurrentRepetition());
         int m=service.getPayments().size();
-        assertEquals(n+1,m);
+        assertEquals(n+1,m);}
+        else{
+            assertThrows(IllegalArgumentException.class,()->{service.addPayment(1,PaymentType.CASH,-2+repetitionInfo.getCurrentRepetition());});
+        }
     }
 
     @org.junit.jupiter.api.Test
