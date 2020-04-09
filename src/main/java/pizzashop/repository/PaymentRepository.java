@@ -13,14 +13,24 @@ import java.util.StringTokenizer;
 public class PaymentRepository {
     private static PaymentRepository single_instance = null;
 
-    private static String filename = "data/payments.txt";
+    private  String filename = "data/payments.txt";
     private List<Payment> paymentList;
 
     public PaymentRepository() {
         this.paymentList = new ArrayList<>();
         readPayments();
     }
-
+    public PaymentRepository(String fileName) {
+        this.filename=fileName;
+        this.paymentList = new ArrayList<>();
+        readPayments();
+    }
+    public PaymentRepository(String fileName,boolean ok) {
+        this.filename=fileName;
+        if(ok==true){
+        this.paymentList = new ArrayList<>();
+        readPayments();}
+    }
     public static PaymentRepository getInstance() {
         if (single_instance == null)
             single_instance = new PaymentRepository();
