@@ -1,0 +1,213 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PizzaServiceTest</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">pizzashop.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PizzaServiceTest (pizzashop.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PizzaServiceTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (29/ 29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package pizzashop.service;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.junit.jupiter.api.*;
+<i>4</i>&nbsp;import org.junit.jupiter.api.extension.ExtendWith;
+<i>5</i>&nbsp;import org.junit.jupiter.api.extension.ParameterResolver;
+<i>6</i>&nbsp;import org.junit.jupiter.params.ParameterizedTest;
+<i>7</i>&nbsp;import org.junit.jupiter.params.provider.ValueSource;
+<i>8</i>&nbsp;import pizzashop.model.PaymentType;
+<i>9</i>&nbsp;import pizzashop.repository.MenuRepository;
+<i>10</i>&nbsp;import pizzashop.repository.PaymentRepository;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import static org.junit.jupiter.api.Assertions.*;
+<i>13</i>&nbsp;
+<b class="fc"><i>14</i>&nbsp;class PizzaServiceTest {</b>
+<i>15</i>&nbsp;    private static   MenuRepository menuRepo;
+<i>16</i>&nbsp;    private static  PaymentRepository payRepoEmpty;
+<i>17</i>&nbsp;    private static  PizzaService serviceEmpty;
+<i>18</i>&nbsp;    private static  PaymentRepository payRepo;
+<i>19</i>&nbsp;    private static  PizzaService service;
+<i>20</i>&nbsp;    private static  PaymentRepository payRepoFalse;
+<i>21</i>&nbsp;    private static  PizzaService serviceFalse;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @BeforeAll
+<i>24</i>&nbsp;    @DisplayName(&quot;init&quot;)
+<i>25</i>&nbsp;   static void init(){
+<b class="fc"><i>26</i>&nbsp;        menuRepo=new MenuRepository();</b>
+<b class="fc"><i>27</i>&nbsp;        payRepoEmpty=new PaymentRepository(&quot;data/paymentsTest1.txt&quot;);</b>
+<b class="fc"><i>28</i>&nbsp;        serviceEmpty=new PizzaService(menuRepo,payRepoEmpty);</b>
+<b class="fc"><i>29</i>&nbsp;        payRepo=new PaymentRepository();</b>
+<b class="fc"><i>30</i>&nbsp;        service=new PizzaService(menuRepo,payRepo);</b>
+<b class="fc"><i>31</i>&nbsp;        payRepoFalse=new PaymentRepository(&quot;data/paymentsTest1.txt&quot;,false);</b>
+<b class="fc"><i>32</i>&nbsp;        serviceFalse=new PizzaService(menuRepo,payRepoFalse);</b>
+<b class="fc"><i>33</i>&nbsp;    }</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    @Test
+<i>36</i>&nbsp;    void getTotalAmount1_0() {
+<i>37</i>&nbsp;
+<b class="fc"><i>38</i>&nbsp;        Double result=serviceFalse.getTotalAmount(PaymentType.CASH);</b>
+<b class="fc"><i>39</i>&nbsp;        assertEquals(0,result);</b>
+<b class="fc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;    @Test
+<i>42</i>&nbsp;    void getTotalAmount1_1() {
+<i>43</i>&nbsp;
+<b class="fc"><i>44</i>&nbsp;        Double result=serviceFalse.getTotalAmount(PaymentType.CARD);</b>
+<b class="fc"><i>45</i>&nbsp;        assertEquals(0,result);</b>
+<b class="fc"><i>46</i>&nbsp;    }</b>
+<i>47</i>&nbsp;    @Test
+<i>48</i>&nbsp;    void getTotalAmount2_0() {
+<i>49</i>&nbsp;
+<b class="fc"><i>50</i>&nbsp;        Double result=serviceEmpty.getTotalAmount(PaymentType.CASH);</b>
+<i>51</i>&nbsp;
+<b class="fc"><i>52</i>&nbsp;        assertEquals(0,result);</b>
+<b class="fc"><i>53</i>&nbsp;    }</b>
+<i>54</i>&nbsp;    @Test
+<i>55</i>&nbsp;    void getTotalAmount2_1() {
+<i>56</i>&nbsp;
+<b class="fc"><i>57</i>&nbsp;        Double result=serviceEmpty.getTotalAmount(PaymentType.CARD);</b>
+<b class="fc"><i>58</i>&nbsp;        assertEquals(0,result);</b>
+<b class="fc"><i>59</i>&nbsp;    }    @Test</b>
+<i>60</i>&nbsp;    void getTotalAmount3_0() {
+<b class="fc"><i>61</i>&nbsp;        service.addPayment(1,PaymentType.CASH,1.0);</b>
+<b class="fc"><i>62</i>&nbsp;        Double result=service.getTotalAmount(PaymentType.CASH);</b>
+<b class="fc"><i>63</i>&nbsp;        assertNotEquals(0,result);</b>
+<b class="fc"><i>64</i>&nbsp;    }</b>
+<i>65</i>&nbsp;    @Test
+<i>66</i>&nbsp;    void getTotalAmount3_1() {
+<b class="fc"><i>67</i>&nbsp;        service.addPayment(1,PaymentType.CARD,1.0);</b>
+<b class="fc"><i>68</i>&nbsp;        Double result=service.getTotalAmount(PaymentType.CARD);</b>
+<b class="fc"><i>69</i>&nbsp;        assertNotEquals(0,result);</b>
+<b class="fc"><i>70</i>&nbsp;    }</b>
+<i>71</i>&nbsp;//    @Disabled
+<i>72</i>&nbsp;//    @DisplayName(&quot;ECPTest2&quot;)
+<i>73</i>&nbsp;//    @org.junit.jupiter.api.Test
+<i>74</i>&nbsp;//    void addPaymentecp1() {
+<i>75</i>&nbsp;//        //service.addPayment(&quot;Asd&quot;, PaymentType.CASH,&quot;Asd&quot;);
+<i>76</i>&nbsp;//        //this test can not be run because have wrong parameters
+<i>77</i>&nbsp;//        System.out.println(&quot;test nerulat&quot;);
+<i>78</i>&nbsp;//    }
+<i>79</i>&nbsp;//
+<i>80</i>&nbsp;//
+<i>81</i>&nbsp;//    @org.junit.jupiter.api.Test
+<i>82</i>&nbsp;//    @DisplayName(&quot;ECPTest1&quot;)
+<i>83</i>&nbsp;//    void addPaymentecp2() {
+<i>84</i>&nbsp;//        int n=service.getPayments().size();
+<i>85</i>&nbsp;//        service.addPayment(1,PaymentType.CASH,1.0);
+<i>86</i>&nbsp;//        int m=service.getPayments().size();
+<i>87</i>&nbsp;//        assertEquals(n+1,m);
+<i>88</i>&nbsp;//    }
+<i>89</i>&nbsp;//
+<i>90</i>&nbsp;//    @org.junit.jupiter.api.Test
+<i>91</i>&nbsp;//    @DisplayName(&quot;ECPTest3&quot;)
+<i>92</i>&nbsp;//    void addPaymentecp3() {
+<i>93</i>&nbsp;//
+<i>94</i>&nbsp;//        assertThrows(IllegalArgumentException.class,()-&gt;{service.addPayment(10,PaymentType.CASH,-1.0);});
+<i>95</i>&nbsp;//    }
+<i>96</i>&nbsp;//
+<i>97</i>&nbsp;//    @org.junit.jupiter.api.Test
+<i>98</i>&nbsp;//    @DisplayName(&quot;bvaTest1&quot;)
+<i>99</i>&nbsp;//    @ParameterizedTest
+<i>100</i>&nbsp;//    @ValueSource(ints = {-1,0,1})
+<i>101</i>&nbsp;//    void addPaymentecp4(int k) {
+<i>102</i>&nbsp;//
+<i>103</i>&nbsp;//            assertThrows(IllegalArgumentException.class,()-&gt;{service.addPayment(k,PaymentType.CASH,-1.0);});
+<i>104</i>&nbsp;//
+<i>105</i>&nbsp;//    }
+<i>106</i>&nbsp;//    @org.junit.jupiter.api.Test
+<i>107</i>&nbsp;//    @DisplayName(&quot;bvaTest2&quot;)
+<i>108</i>&nbsp;// @RepeatedTest(3)
+<i>109</i>&nbsp;//    void addPaymentecp5(RepetitionInfo repetitionInfo) {
+<i>110</i>&nbsp;//        if(repetitionInfo.getCurrentRepetition()&gt;=2){
+<i>111</i>&nbsp;//        int n=service.getPayments().size();
+<i>112</i>&nbsp;//        service.addPayment(1,PaymentType.CASH,-2+repetitionInfo.getCurrentRepetition());
+<i>113</i>&nbsp;//        int m=service.getPayments().size();
+<i>114</i>&nbsp;//        assertEquals(n+1,m);}
+<i>115</i>&nbsp;//        else{
+<i>116</i>&nbsp;//            assertThrows(IllegalArgumentException.class,()-&gt;{service.addPayment(1,PaymentType.CASH,-2+repetitionInfo.getCurrentRepetition());});
+<i>117</i>&nbsp;//        }
+<i>118</i>&nbsp;//    }
+<i>119</i>&nbsp;//
+<i>120</i>&nbsp;//    @org.junit.jupiter.api.Test
+<i>121</i>&nbsp;//    @DisplayName(&quot;bvaTest3&quot;)
+<i>122</i>&nbsp;//    @RepeatedTest(3)
+<i>123</i>&nbsp;//    void addPaymentecp6(RepetitionInfo repetitionInfo) {
+<i>124</i>&nbsp;//        int n=service.getPayments().size();
+<i>125</i>&nbsp;//        service.addPayment(6+repetitionInfo.getCurrentRepetition(),PaymentType.CASH,-2+repetitionInfo.getCurrentRepetition()+Double.MAX_VALUE);
+<i>126</i>&nbsp;//        int m=service.getPayments().size();
+<i>127</i>&nbsp;//        assertEquals(n+1,m);
+<i>128</i>&nbsp;//    }
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-09 10:46</div>
+</div>
+</body>
+</html>
