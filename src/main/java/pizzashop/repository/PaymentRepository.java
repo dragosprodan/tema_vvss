@@ -15,7 +15,10 @@ public class PaymentRepository {
 
     private  String filename = "data/payments.txt";
     private List<Payment> paymentList;
-
+    public PaymentRepository(List<Payment> lp) {
+        this.paymentList =lp;
+       // readPayments();
+    }
     public PaymentRepository() {
         this.paymentList = new ArrayList<>();
         readPayments();
@@ -72,7 +75,10 @@ public class PaymentRepository {
         paymentList.add(payment);
         writeAll();
     }
-
+    public void add1(Payment payment){
+        paymentList.add(payment);
+        //writeAll();
+    }
     public List<Payment> getAll(){
         return paymentList;
     }

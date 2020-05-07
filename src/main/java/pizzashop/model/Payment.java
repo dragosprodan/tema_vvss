@@ -42,4 +42,14 @@ public class Payment {
     public String toString() {
         return tableNumber + ","+type +"," + amount;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Payment p=(Payment) obj;
+        if(obj!=null)
+        {
+            return this.getAmount()==p.getAmount()&&this.getType().equals(((Payment) obj).getType())&& this.getTableNumber()==((Payment) obj).getTableNumber();
+        }
+        return false;
+    }
 }
